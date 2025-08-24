@@ -2,7 +2,7 @@
 import css from './page.module.css'
 import {useParams} from "next/navigation";
 import {useQuery} from "@tanstack/react-query";
-import * as NoteService from "@/app/api/api";
+import * as NoteService from "@/lib/api/clientApi";
 import {formatDate} from "@/lib/dateUtils";
 
 export const NoteDetailsClient =  () => {

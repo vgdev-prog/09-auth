@@ -3,7 +3,7 @@
 import {useState} from 'react';
 import {useRouter} from 'next/navigation';
 import css from './page.module.css';
-import {ApiError, loginUser} from "@/app/api/api";
+import {ApiError, loginUser} from "@/lib/api/clientApi";
 import {useAuthStore} from "@/store/authStore";
 
 const SignInPage = () => {

@@ -1,7 +1,7 @@
 import {NextRequest, NextResponse} from "next/server";
 import {cookies} from "next/headers";
-import {externalApi} from "@/app/api/serverApi";
-import {ApiError} from "@/app/api/api";
+import {externalApi} from "@/lib/api/serverApi";
+import {ApiError} from "@/lib/api/clientApi";
 
 export async function GET() {
     const cookieStore = await cookies();

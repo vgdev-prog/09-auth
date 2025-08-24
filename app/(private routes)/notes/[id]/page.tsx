@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import * as NoteService from "@/app/api/api";
+import * as NoteService from "@/lib/api/clientApi";
 import {HydrationBoundary, QueryClient} from "@tanstack/react-query";
 import {dehydrate} from "@tanstack/query-core";
 import {NoteDetailsClient} from "@/app/(private routes)/notes/[id]/Notes.client";

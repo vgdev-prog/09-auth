@@ -1,5 +1,5 @@
 import Modal from "@/components/Modal/Modal";
-import * as NoteService from "@/app/api/api";
+import * as NoteService from "@/lib/api/clientApi";
 
 interface PageProps {
     params: Promise<{ id: string }>

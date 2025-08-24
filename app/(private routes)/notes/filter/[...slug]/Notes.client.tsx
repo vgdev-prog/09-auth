@@ -1,7 +1,7 @@
 'use client';
 
 import css from './page.module.css';
-import * as NoteService from "@/app/api/api";
+import * as NoteService from "@/lib/api/clientApi";
 import {keepPreviousData, useQuery} from "@tanstack/react-query";
 import SearchBox from "@/components/SearchBox/SearchBox";
 import Pagination from "@/components/Pagination/Pagination";

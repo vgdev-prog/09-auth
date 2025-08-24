@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { externalApi } from "@/app/api/serverApi";
+import { externalApi } from "@/lib/api/serverApi";
 
 export async function POST() {
     const cookieStore = await cookies();

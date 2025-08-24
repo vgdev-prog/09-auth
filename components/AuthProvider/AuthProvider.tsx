@@ -2,7 +2,7 @@
 
 import {ReactNode, useEffect} from "react";
 import {useAuthStore} from "@/store/authStore";
-import {checkSession, getCurrentUser} from "@/app/api/api";
+import {checkSession, getCurrentUser} from "@/lib/api/clientApi";
 
 interface Props {
     children: ReactNode

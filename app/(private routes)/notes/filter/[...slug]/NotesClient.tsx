@@ -2,7 +2,7 @@
 
 import css from './page.module.css';
 import {keepPreviousData, useQuery} from "@tanstack/react-query";
-import { getAllNotes } from "@/lib/api/api";
+import { getAllNotes } from "@/app/api/api";
 import SearchBox from "@/components/SearchBox/SearchBox";
 import Pagination from "@/components/Pagination/Pagination";
 import {useState} from "react";

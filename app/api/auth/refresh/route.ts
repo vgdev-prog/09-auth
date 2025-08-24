@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { externalApi } from "@/lib/api/serverApi";
+import { externalApi } from "@/app/api/serverApi";
 
 export async function POST() {
     const cookieStore = await cookies();
@@ -20,7 +20,6 @@ export async function POST() {
             }
         });
 
-        // Set new tokens from response headers
         const setCookieHeaders = apiRes.headers['set-cookie'];
         const response = NextResponse.json({ success: true });
 
@@ -33,8 +32,7 @@ export async function POST() {
         }
 
         return response;
-    } catch (error) {
-        // Clear tokens if refresh failed
+    } catch {
         const response = NextResponse.json(
             { error: 'Failed to refresh token' }, 
             { status: 401 }

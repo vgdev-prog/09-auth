@@ -20,5 +20,10 @@ export interface RegisterData {
 }
 
 export interface CheckSessionRequest {
+    authenticated: boolean;
+    user?: User;
+}
+
+export interface RefreshTokenResponse {
     success: boolean;
 }

@@ -1,7 +1,7 @@
 "use client"
 import css from './AuthNavigation.module.css';
-import {useAuthStore} from "@/lib/store/authStore";
-import {logoutUser} from "@/lib/api/api";
+import {useAuthStore} from "@/store/authStore";
+import {logoutUser} from "@/app/api/api";
 import {useRouter} from "next/navigation";
 import Link from 'next/link';
 

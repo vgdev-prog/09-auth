@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import css from './page.module.css';
-import { useAuthStore } from '@/lib/store/authStore';
-import { updateUser, ApiError } from '@/lib/api/api';
+import { useAuthStore } from '@/store/authStore';
+import { updateUser, ApiError } from '@/app/api/api';
 
 const ProfileEditPage = () => {
     const { user, setUser } = useAuthStore();

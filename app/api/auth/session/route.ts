@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { externalApi } from "@/lib/api/serverApi";
+import { externalApi } from "@/app/api/serverApi";
 
 export async function GET() {
     const cookieStore = await cookies();
@@ -11,7 +11,6 @@ export async function GET() {
     }
 
     try {
-        // Verify session with backend
         const apiRes = await externalApi.get('/auth/session', {
             headers: {
                 Cookie: cookieStore.toString()
@@ -22,7 +21,7 @@ export async function GET() {
             authenticated: true,
             user: apiRes.data 
         });
-    } catch (error) {
+    } catch {
         const response = NextResponse.json({ authenticated: false }, { status: 200 });
         response.cookies.delete('accessToken');
         return response;

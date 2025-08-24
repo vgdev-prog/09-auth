@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {type Note} from "@/types/note";
-import {CheckSessionRequest, LoginCredentials, RegisterData, User} from "@/types/user";
-import {internalApi} from "@/lib/api/clientApi";
+import {CheckSessionRequest, LoginCredentials, RegisterData, User, RefreshTokenResponse} from "@/types/user";
+import {internalApi} from "@/app/api/clientApi";
 
 export interface ApiError {
     response?: {
@@ -77,9 +77,14 @@ export const getCurrentUser = async (): Promise<User> => {
     return response.data;
 };
 
-export const checkSession = async () => {
+export const checkSession = async (): Promise<CheckSessionRequest> => {
     const res = await internalApi.get<CheckSessionRequest>('/auth/session');
-    return res.data.success;
+    return res.data;
+}
+
+export const refreshToken = async (): Promise<RefreshTokenResponse> => {
+    const res = await internalApi.post<RefreshTokenResponse>('/auth/refresh');
+    return res.data;
 }
 
 export const updateUser = async (userData: Partial<Pick<User, 'username'>>): Promise<User> => {

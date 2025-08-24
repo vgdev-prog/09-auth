@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { type Note } from '@/types/note'
-import { externalApi } from '@/lib/api/serverApi'
+import { externalApi } from '@/app/api/serverApi'
 import { cookies } from 'next/headers'
 
 interface NoteResponse {

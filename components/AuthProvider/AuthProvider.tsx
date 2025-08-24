@@ -1,8 +1,8 @@
 "use client"
 
 import {ReactNode, useEffect} from "react";
-import {useAuthStore} from "@/lib/store/authStore";
-import {checkSession, getCurrentUser} from "@/lib/api/api";
+import {useAuthStore} from "@/store/authStore";
+import {checkSession, getCurrentUser} from "@/app/api/api";
 
 interface Props {
     children: ReactNode
@@ -14,14 +14,18 @@ const AuthProvider = ({children}: Props) => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const isAuthenticated = await checkSession();
-                if (isAuthenticated) {
-                    const user = await getCurrentUser();
-                    if (user) setUser(user);
+                const sessionData = await checkSession();
+                if (sessionData.authenticated) {
+                    if (sessionData.user) {
+                        setUser(sessionData.user);
+                    } else {
+                        const user = await getCurrentUser();
+                        if (user) setUser(user);
+                    }
                 } else {
                     clearIsAuthenticated()
                 }
-            } catch (error) {
+            } catch {
                 clearIsAuthenticated()
             }
         }

@@ -3,8 +3,8 @@
 import {useState} from 'react';
 import {useRouter} from 'next/navigation';
 import css from './page.module.css';
-import {ApiError, loginUser} from "@/lib/api/api";
-import {useAuthStore} from "@/lib/store/authStore";
+import {ApiError, loginUser} from "@/app/api/api";
+import {useAuthStore} from "@/store/authStore";
 
 const SignInPage = () => {
     const {setUser} = useAuthStore();

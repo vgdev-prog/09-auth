@@ -1,7 +1,7 @@
 'use client';
 
 import css from './page.module.css';
-import {useAuthStore} from "@/store/authStore";
+import {useAuthStore} from "@/lib/store/authStore";
 import Link from 'next/link';
 import Image from 'next/image';
 

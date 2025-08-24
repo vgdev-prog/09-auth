@@ -1,7 +1,7 @@
 'use client';
 
 import css from './NoteForm.module.css';
-import { useNoteStore, initialDraft } from "@/store/noteStore";
+import { useNoteStore, initialDraft } from "@/lib/store/noteStore";
 import { createNote } from "@/lib/api/clientApi";
 import { TAG_LIST } from "@/constants";
 import { useRouter } from "next/navigation";

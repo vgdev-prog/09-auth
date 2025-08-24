@@ -4,7 +4,7 @@ import css from './Header.module.css';
 import Link from "next/link";
 import TagsMenu from '../TagsMenu/TagsMenu';
 import AuthNavigation from '../AuthNavigation/AuthNavigation';
-import { useAuthStore } from '@/store/authStore';
+import { useAuthStore } from '@/lib/store/authStore';
 
 interface Props {
     className?: string

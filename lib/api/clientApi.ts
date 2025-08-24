@@ -1,6 +1,8 @@
 import {type Note} from "@/types/note";
 import {CheckSessionRequest, LoginCredentials, RegisterData, User, RefreshTokenResponse} from "@/types/user";
-import {internalApi} from "@/lib/api/api";
+import {internalApi, ApiError} from "@/lib/api/api";
+
+export type { ApiError };
 
 interface NoteResponse {
     notes: Note[];

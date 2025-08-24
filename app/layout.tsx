@@ -5,6 +5,7 @@ import Footer from "@/components/Footer/Footer";
 import {ReactNode} from "react";
 import {TanStackProvider} from "@/components/TanStackProvider/TanStackProvider";
 import { Metadata } from "next";
+import AuthProvider from "@/components/AuthProvider/AuthProvider";
 
 const roboto = Roboto({
     weight: ['300', '400', '500', '700'],
@@ -41,18 +42,20 @@ export default function RootLayout({
 
     return (
         <html lang="en">
-        <body className={roboto.variable}>
+        <body className={roboto.variable} suppressHydrationWarning={true}>
         <TanStackProvider>
-            <div className="wrapper">
-                <Header/>
-                <main>
-                    <div className="container">
-                        {children}
-                        {modal}
-                    </div>
-                </main>
-                <Footer/>
-            </div>
+           <AuthProvider>
+               <div className="wrapper">
+                   <Header/>
+                   <main>
+                       <div className="container">
+                           {children}
+                           {modal}
+                       </div>
+                   </main>
+                   <Footer/>
+               </div>
+           </AuthProvider>
         </TanStackProvider>
         </body>
         </html>

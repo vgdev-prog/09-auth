@@ -1,6 +1,10 @@
+'use client';
+
 import css from './Header.module.css';
 import Link from "next/link";
 import TagsMenu from '../TagsMenu/TagsMenu';
+import AuthNavigation from '../AuthNavigation/AuthNavigation';
+import { useAuthStore } from '@/lib/store/authStore';
 
 interface Props {
     className?: string
@@ -8,6 +12,8 @@ interface Props {
 
 
 const Header = ({}: Props) => {
+    const { isAuthenticated } = useAuthStore();
+
     return (
         <header className={`${css.header}`}>
            <div className={`container ${css.headerRow}`}>
@@ -22,10 +28,12 @@ const Header = ({}: Props) => {
                                Home
                            </Link>
                        </li>
-                       <li>
-                           <TagsMenu />
-                       </li>
-
+                       {isAuthenticated && (
+                           <li>
+                               <TagsMenu />
+                           </li>
+                       )}
+                       <AuthNavigation />
                    </ul>
                </nav>
            </div>

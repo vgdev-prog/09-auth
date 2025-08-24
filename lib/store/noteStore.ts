@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, devtools } from 'zustand/middleware';
 
 export interface NoteFormData {
   title: string;
@@ -20,18 +20,23 @@ interface NoteStore {
 }
 
 export const useNoteStore = create<NoteStore>()(
-  persist(
-    (set) => ({
-      draft: initialDraft,
-      setDraft: (note: Partial<NoteFormData>) =>
-        set((state) => ({
-          draft: { ...state.draft, ...note },
-        })),
-      clearDraft: () => set({ draft: initialDraft }),
-    }),
+  devtools(
+    persist(
+      (set, get) => ({
+        draft: initialDraft,
+        setDraft: (note: Partial<NoteFormData>) =>
+          set({
+            draft: { ...get().draft, ...note },
+          }, false, "setDraft"),
+        clearDraft: () => set({ draft: initialDraft }, false, "clearDraft"),
+      }),
+      {
+        name: 'note-draft-storage',
+        partialize: (state) => ({ draft: state.draft }),
+      }
+    ),
     {
-      name: 'note-draft-storage',
-      partialize: (state) => ({ draft: state.draft }),
+      name: 'note-store',
     }
   )
 );

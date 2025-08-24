@@ -1,43 +1,45 @@
-import {NextRequest, NextResponse} from "next/server";
-import {externalApi} from "@/lib/api/serverApi";
-import {cookies} from "next/headers";
-import {parse} from "cookie";
-import {ApiError} from "@/lib/api/clientApi";
+import { NextRequest, NextResponse } from 'next/server';
+import { api } from '../../api';
+import { cookies } from 'next/headers';
+import { parse } from 'cookie';
+import { isAxiosError } from 'axios';
+import { logErrorResponse } from '@/lib/dateUtils';
 
-export async function POST(request: NextRequest) {
-    const body = await request.json();
-    console.log('Register body', body);
-    try {
-        const res = await externalApi.post('/auth/register', body);
-        const cookieStore = await cookies();
-        const setCookie = res.headers['set-cookie'];
-        if (setCookie) {
-            const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
-            for (const cookieArrayElement of cookieArray) {
-                const parsed = parse(cookieArrayElement);
-                const options = {
-                    expires: parsed.Expires ? new Date(parsed.Expires) : undefined,
-                    path: parsed.Path || '/',
-                    maxAge: Number(parsed['Max-Age']) || undefined
-                }
-                
-                if (parsed.accessToken) {
-                    cookieStore.set('accessToken', parsed.accessToken, options);
-                }
-                if (parsed.refreshToken) {
-                    cookieStore.set('refreshToken', parsed.refreshToken, options);
-                }
-            }
-            return NextResponse.json(res.data);
-        }
-        return NextResponse.json({error: 'Unauthorized'}, {status: 401});
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json();
 
-    } catch (error) {
-        return NextResponse.json(
-            {
-                error: (error as ApiError).response?.data?.error ?? (error as ApiError).message,
-            },
-            {status: (error as ApiError).status}
-        );
+    const apiRes = await api.post('auth/register', body);
+
+    const cookieStore = await cookies();
+    const setCookie = apiRes.headers['set-cookie'];
+
+    if (setCookie) {
+      const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
+      for (const cookieStr of cookieArray) {
+        const parsed = parse(cookieStr);
+
+        const options = {
+          expires: parsed.Expires ? new Date(parsed.Expires) : undefined,
+          path: parsed.Path,
+          maxAge: Number(parsed['Max-Age']),
+        };
+        if (parsed.accessToken) cookieStore.set('accessToken', parsed.accessToken, options);
+        if (parsed.refreshToken) cookieStore.set('refreshToken', parsed.refreshToken, options);
+      }
+      return NextResponse.json(apiRes.data, { status: apiRes.status });
     }
+
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  } catch (error) {
+    if (isAxiosError(error)) {
+      logErrorResponse(error.response?.data);
+      return NextResponse.json(
+        { error: error.message, response: error.response?.data },
+        { status: error.status }
+      );
+    }
+    logErrorResponse({ message: (error as Error).message });
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
 }

@@ -1,17 +1,14 @@
 import {type Note} from "@/types/note";
 import {CheckSessionRequest, LoginCredentials, RegisterData, User, RefreshTokenResponse} from "@/types/user";
-import {internalApi, ApiError} from "@/lib/api/api";
+import {ApiError, NoteResponse, Sorting} from "@/lib/api/api";
+import axios from 'axios';
+
+const internalApi = axios.create({
+    baseURL: '/api',
+    withCredentials: true,
+});
 
 export type { ApiError };
-
-interface NoteResponse {
-    notes: Note[];
-    totalPages: number;
-}
-
-export enum Sorting {
-    CREATED = 'created',
-}
 
 export const getAllNotes = async (
     search: string,

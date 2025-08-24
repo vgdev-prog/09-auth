@@ -1,11 +1,4 @@
-import axios from 'axios';
-
-const baseURL = process.env.INTERNAL_API_URL || '/api';
-
-export const internalApi = axios.create({
-    baseURL: baseURL,
-    withCredentials: true,
-});
+import {Note} from "@/types/note";
 
 export interface ApiError {
     response?: {
@@ -16,4 +9,13 @@ export interface ApiError {
     };
     message: string;
     status: number;
+}
+
+export interface NoteResponse {
+    notes: Note[];
+    totalPages: number;
+}
+
+export enum Sorting {
+    CREATED = 'created',
 }

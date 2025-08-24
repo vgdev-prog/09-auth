@@ -1,12 +1,7 @@
 import axios from 'axios';
 import {type Note} from "@/types/note";
-import {AuthResponse, CheckSessionRequest, LoginCredentials, RegisterData, User} from "@/types/user";
-
-
-export const internalApi = axios.create({
-    baseURL: '/api',
-    withCredentials: true,
-});
+import {CheckSessionRequest, LoginCredentials, RegisterData, User} from "@/types/user";
+import {internalApi} from "@/lib/api/clientApi";
 
 export interface ApiError {
     response?: {
@@ -78,7 +73,7 @@ export const logoutUser = async (): Promise<void> => {
 };
 
 export const getCurrentUser = async (): Promise<User> => {
-    const response = await internalApi.get('/auth/me');
+    const response = await internalApi.get('/users/me');
     return response.data;
 };
 
@@ -88,6 +83,6 @@ export const checkSession = async () => {
 }
 
 export const updateUser = async (userData: Partial<Pick<User, 'username'>>): Promise<User> => {
-    const response = await internalApi.put('/auth/update', userData);
+    const response = await internalApi.patch('/users/me', userData);
     return response.data;
 }

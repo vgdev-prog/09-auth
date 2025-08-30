@@ -2,6 +2,8 @@ import NotesClient from "./NotesClient";
 import {HydrationBoundary, QueryClient} from "@tanstack/react-query";
 import {dehydrate} from "@tanstack/query-core";
 import { Metadata } from 'next';
+import { getAllServerNotes } from "@/lib/api/serverApi";
+import { Sorting } from "@/lib/api/api";
 
 interface PageProps {
     params: Promise<{ slug: string[] }>;
@@ -61,18 +63,7 @@ const Page = async ({ params }: PageProps) => {
 
     await queryClient.prefetchQuery({
         queryKey: ['notes', '', 1, tag],
-        queryFn: async () => {
-            const params = new URLSearchParams({
-                page: '1',
-                sortBy: 'created',
-                perPage: '10',
-                ...(tag && { tag })
-            });
-            
-            const response = await fetch(`/api/notes?${params}`);
-            if (!response.ok) throw new Error('Failed to fetch notes');
-            return response.json();
-        },
+        queryFn: () => getAllServerNotes('', 1, Sorting.CREATED, 10, tag),
     })
 
     return (

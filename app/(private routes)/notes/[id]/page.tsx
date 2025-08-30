@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import * as NoteService from "@/lib/api/clientApi";
+import { getServerNoteById } from "@/lib/api/serverApi";
 import {HydrationBoundary, QueryClient} from "@tanstack/react-query";
 import {dehydrate} from "@tanstack/query-core";
 import {NoteDetailsClient} from "@/app/(private routes)/notes/[id]/Notes.client";
@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const { id } = await params;
     
     try {
-        const note = await NoteService.getNoteById(id);
+        const note = await getServerNoteById(id);
         
         const truncatedContent = note.content.length > 150 
             ? `${note.content.substring(0, 150)}...`
@@ -62,7 +62,7 @@ const Page = async ({params}: PageProps) => {
     const queryClient = new QueryClient();
 
 
-    const note = await NoteService.getNoteById(id).catch(() => {
+    const note = await getServerNoteById(id).catch(() => {
         notFound();
     });
 
@@ -72,7 +72,7 @@ const Page = async ({params}: PageProps) => {
 
     await queryClient.prefetchQuery({
         queryKey: ['note',id],
-        queryFn: () => NoteService.getNoteById(id),
+        queryFn: () => getServerNoteById(id),
     })
 
 

@@ -1,5 +1,7 @@
 import {cookies} from "next/headers";
 import {User} from "@/types/user";
+import {Note} from "@/types/note";
+import {NoteResponse, Sorting} from "@/lib/api/api";
 import {api} from "@/app/api/api";
 
 
@@ -21,4 +23,38 @@ export const checkServerSession = async () => {
         },
     });
     return res;
+};
+
+export const getServerNoteById = async (id: string): Promise<Note> => {
+    const cookieStore = await cookies();
+    const { data } = await api.get(`/notes/${id}`, {
+        headers: {
+            Cookie: cookieStore.toString(),
+        },
+    });
+    return data;
+};
+
+export const getAllServerNotes = async (
+    search: string = '',
+    page: number = 1,
+    sorting: Sorting = Sorting.CREATED,
+    perPage: number = 10,
+    tag?: string
+): Promise<NoteResponse> => {
+    const cookieStore = await cookies();
+    const params = new URLSearchParams({
+        page: String(page),
+        sortBy: sorting,
+        perPage: String(perPage),
+        ...(search && { search }),
+        ...(tag && { tag })
+    });
+
+    const { data } = await api.get(`/notes?${params.toString()}`, {
+        headers: {
+            Cookie: cookieStore.toString(),
+        },
+    });
+    return data;
 };

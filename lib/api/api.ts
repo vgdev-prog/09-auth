@@ -19,3 +19,4 @@ export interface NoteResponse {
 export enum Sorting {
     CREATED = 'created',
 }
+

@@ -1,4 +1,5 @@
 import {Note} from "@/types/note";
+import axios from 'axios';
 
 export interface ApiError {
     response?: {
@@ -19,4 +20,9 @@ export interface NoteResponse {
 export enum Sorting {
     CREATED = 'created',
 }
+
+export const clientApi = axios.create({
+    baseURL: '/api',
+    withCredentials: true,
+});
 
